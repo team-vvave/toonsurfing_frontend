@@ -4,6 +4,7 @@ import ChatBackground from "../components/ChatBackground";
 import InitialChat from "../components/InitialChat";
 import LeftChat from "../components/LeftChat";
 import RightChat from "../components/RightChat";
+import profile from "../assets/images/profile.PNG";
 
 const ChatContentContainer = styled.div`
   width: 100%;
@@ -66,7 +67,10 @@ const Button = styled.button`
 `;
 
 export default function ChatPage() {
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState([
+    { type: "left", text: "This is a test message from the left side." },
+    { type: "left", text: "This is a test message from the left side." },
+  ]);
   const [inputValue, setInputValue] = useState("");
 
   const handleInputChange = (e) => {
@@ -88,7 +92,11 @@ export default function ChatPage() {
         <InitialChat />
         {messages.map((message, index) =>
           message.type === "left" ? (
-            <LeftChat key={index} message={message.text} />
+            <LeftChat
+              key={index}
+              message={message.text}
+              profileImage={index === 0 ? profile : null}
+            />
           ) : (
             <RightChat key={index} message={message.text} />
           )
