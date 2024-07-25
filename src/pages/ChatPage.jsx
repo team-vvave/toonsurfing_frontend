@@ -29,23 +29,40 @@ const InputContainer = styled.div`
 `;
 
 const Input = styled.input`
-  width: 70%;
-  padding: 1vw;
-  font-size: 1rem;
+  width: 75%;
+  padding: 2vw;
   border-radius: 1vw;
   border: 1px solid #ccc;
   outline: none;
+
+  font-family: "Pretendard";
+  font-size: 1rem;
+  font-weight: 200;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  line-height: 1.3;
+  color: #333;
 `;
 
 const Button = styled.button`
-  padding: 1vw 2vw;
+  width: 15%;
   margin-left: 1vw;
-  font-size: 1rem;
   border: none;
   border-radius: 1vw;
-  background-color: #64b3f4;
+  background: ${(props) =>
+    props.disabled
+      ? "#d9d9d9"
+      : "radial-gradient(ellipse at center, #c2e59c 0%, #64b3f4 70%)"};
   color: white;
-  cursor: pointer;
+  cursor: ${(props) => (props.disabled ? "default" : "pointer")};
+
+  font-family: "Pretendard";
+  font-size: 1rem;
+  font-weight: 500;
+
+  &:disabled {
+    cursor: default;
+  }
 `;
 
 export default function ChatPage() {
@@ -85,7 +102,9 @@ export default function ChatPage() {
           onChange={handleInputChange}
           placeholder="메시지를 입력하세요"
         />
-        <Button onClick={handleSendMessage}>전송</Button>
+        <Button onClick={handleSendMessage} disabled={inputValue.trim() === ""}>
+          전송
+        </Button>
       </InputContainer>
     </ChatBackground>
   );
