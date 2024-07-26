@@ -1,8 +1,10 @@
 import React from "react";
 import styled from "styled-components";
+import { motion } from "framer-motion";
+
 import profile from "../assets/images/thumnails/소녀재판.PNG";
 
-const Container = styled.div`
+const Container = styled(motion.div)`
   display: flex;
   flex-direction: column;
 `;
@@ -53,14 +55,18 @@ const ExampleText = styled.p`
 
 export default function InitialChat() {
   return (
-    <Container>
+    <Container
+      initial={{ opacity: 0, y: -15 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 1 }}
+    >
       <ProfileImage src={profile} alt="profile" />
       <ChatContainer>
         <ChatText>안녕하세요! 어떤 장면이 궁금하세요?</ChatText>
         <ChatText>궁금한 장면의 인물 외모/성별/행동/감정</ChatText>
         <ChatText>또는 궁금한 대사를 입력해보세요!</ChatText>
         <br />
-        <ExampleText>예시 )</ExampleText>
+        <ExampleText>예시</ExampleText>
         <ExampleText>
           "금발머리 여자가 다른 남자와 싸우다가 우는 장면"
         </ExampleText>

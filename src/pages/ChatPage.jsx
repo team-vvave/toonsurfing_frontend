@@ -215,27 +215,22 @@ export default function ChatPage() {
         <BackButton src={backButton} onClick={handleBackClick} />
       </HeaderContainer>
       <WhiteContainer>
-        {loading && (
-          <LoadingOverlay
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            <StageSpinner size={50} color="#fff" />
-          </LoadingOverlay>
-        )}
-
         <ChatContentContainer>
           <InitialChat />
           {messages.map((message, index) =>
             message.type === "left" ? (
-              <LeftChat
+              <motion.div
                 key={index}
-                message={message.text}
-                profileImage={index === 0 ? profile : null}
+                initial={{ opacity: 0, y: -15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1 }}
                 className="chat-bubble left"
-              />
+              >
+                <LeftChat
+                  message={message.text}
+                  profileImage={index === 0 ? profile : null}
+                />
+              </motion.div>
             ) : (
               <RightChat
                 key={index}
