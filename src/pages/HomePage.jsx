@@ -8,6 +8,7 @@ import ColorContainer from "../components/ColorBackground";
 const LogoContainer = styled.img`
   width: 70vw;
   height: auto;
+  margin-top: 12vh;
 `;
 
 const TextContainer = styled.div`

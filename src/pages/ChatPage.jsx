@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import { WaveSpinner } from "react-spinners-kit";
+
 import ChatBackground from "../components/ChatBackground";
 import InitialChat from "../components/InitialChat";
 import LeftChat from "../components/LeftChat";
@@ -66,12 +68,34 @@ const Button = styled.button`
   }
 `;
 
+const LoadingOverlay = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  background: rgba(0, 0, 0, 0.5); /* 로딩 오버레이 배경 추가 */
+`;
+
 export default function ChatPage() {
   const [messages, setMessages] = useState([
     { type: "left", text: "This is a test message from the left side." },
     { type: "left", text: "This is a test message from the left side." },
   ]);
   const [inputValue, setInputValue] = useState("");
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // 3초 후에 loading 상태를 false로 변경 (예시)
+    setTimeout(() => {
+      setLoading(false);
+    }, 3000);
+  }, []);
 
   const handleInputChange = (e) => {
     setInputValue(e.target.value);
@@ -96,7 +120,13 @@ export default function ChatPage() {
               key={index}
               message={message.text}
               profileImage={index === 0 ? profile : null}
-            />
+            >
+              {loading && (
+                <LoadingOverlay>
+                  <WaveSpinner size={10} color="#fff" />
+                </LoadingOverlay>
+              )}
+            </LeftChat>
           ) : (
             <RightChat key={index} message={message.text} />
           )
