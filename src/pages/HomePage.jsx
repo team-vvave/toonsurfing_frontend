@@ -16,13 +16,20 @@ const Container = styled.div`
   background: black;
 `;
 
-const LogoContainer = styled.img`
+const ComponentContainer = styled(motion.div)`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;
+
+const LogoContainer = styled(motion.img)`
   width: 70vw;
   height: auto;
   margin-top: 13vh;
 `;
 
-const TextContainer = styled.div`
+const TextContainer = styled(motion.div)`
   font-family: "Pretendard";
   font-size: 1.2rem;
   font-weight: 400;
@@ -34,12 +41,31 @@ const TextContainer = styled.div`
   margin-bottom: 2vh;
 `;
 
-const ButtonContainer = styled(motion.img)`
+const ButtonWrapper = styled(motion.div)`
+  margin: 8vh;
+`;
+
+const ButtonContainer = styled.img`
   width: 40vw;
   height: auto;
-  margin: 8vh;
   cursor: pointer;
 `;
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      duration: 2, // 천천히 나타나도록 지속 시간을 늘림
+      staggerChildren: 1, // 자식 요소들의 나타나는 간격을 늘림
+    },
+  },
+};
+
+const childVariants = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1, transition: { duration: 2 } }, // 천천히 나타나도록 지속 시간을 늘림
+};
 
 function HomePage() {
   const navigate = useNavigate();
@@ -50,14 +76,24 @@ function HomePage() {
 
   return (
     <Container>
-      <LogoContainer src={logo} />
-      <TextContainer>어떤 장면이 궁금하세요?</TextContainer>
-      <ButtonContainer
-        src={button}
-        onClick={handleButtonClick}
-        initial={{ scale: 1 }}
-        whileTap={{ scale: 0.85 }}
-      />
+      <ComponentContainer
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+      >
+        <LogoContainer src={logo} variants={childVariants} />
+        <TextContainer variants={childVariants}>
+          어떤 장면이 궁금하세요?
+        </TextContainer>
+        <ButtonWrapper variants={childVariants}>
+          <ButtonContainer
+            src={button}
+            onClick={handleButtonClick}
+            initial={{ scale: 1 }}
+            whileTap={{ scale: 0.85 }}
+          />
+        </ButtonWrapper>
+      </ComponentContainer>
     </Container>
   );
 }
