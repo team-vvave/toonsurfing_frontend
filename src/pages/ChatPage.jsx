@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { WaveSpinner } from "react-spinners-kit";
+import { StageSpinner } from "react-spinners-kit";
 
 import ChatBackground from "../components/ChatBackground";
 import InitialChat from "../components/InitialChat";
@@ -34,7 +34,7 @@ const InputContainer = styled.div`
 const Input = styled.input`
   width: 75%;
   padding: 2vw;
-  border-radius: 1vw;
+  border-radius: 1.5vw;
   border: 1px solid #ccc;
   outline: none;
 
@@ -51,7 +51,7 @@ const Button = styled.button`
   width: 15%;
   margin-left: 1vw;
   border: none;
-  border-radius: 1vw;
+  border-radius: 1.5vw;
   background: ${(props) =>
     props.disabled
       ? "#d9d9d9"
@@ -117,7 +117,7 @@ export default function ChatPage() {
         <LeftChat>
           {loading && (
             <LoadingOverlay>
-              <WaveSpinner size={10} color="#fff" />
+              <StageSpinner size={10} color="#000" />
             </LoadingOverlay>
           )}
         </LeftChat>
