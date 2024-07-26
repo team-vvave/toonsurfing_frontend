@@ -99,9 +99,15 @@ export default function LeftChat({ episode, num, imagePath, className }) {
   const currentNumber = parseInt(pathParts[1].split(".")[0]);
 
   const images = [
-    `${base}/${(currentNumber - 3).toString().padStart(3, "0")}.jpg`,
     `${base}/${currentNumber.toString().padStart(3, "0")}.jpg`,
     `${base}/${(currentNumber + 3).toString().padStart(3, "0")}.jpg`,
+    `${base}/${(currentNumber + 5).toString().padStart(3, "0")}.jpg`,
+  ];
+
+  const fallbackImages = [
+    `${base}/040.jpg`,
+    `${base}/050.jpg`,
+    `${base}/060.jpg`,
   ];
 
   const openLinkInNewWindow = () => {
@@ -147,6 +153,12 @@ export default function LeftChat({ episode, num, imagePath, className }) {
     }
   };
 
+  const handleError = (e) => {
+    const randomFallback =
+      fallbackImages[Math.floor(Math.random() * fallbackImages.length)];
+    e.target.src = `/assets/images/cuts/${randomFallback}`;
+  };
+
   return (
     <Container className={className}>
       <ChatContainer>
@@ -162,6 +174,7 @@ export default function LeftChat({ episode, num, imagePath, className }) {
               key={index}
               src={`/assets/images/cuts/${img}`}
               alt={`response-${index}`}
+              onError={handleError}
             />
           ))}
         </ImageContainer>

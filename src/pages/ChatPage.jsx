@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { StageSpinner } from "react-spinners-kit";
 import { motion } from "framer-motion";
-import axios from "axios";
+import { apiClient } from "../apiClient"; // 설정한 axios 인스턴스를 가져옵니다.
 
 import InitialChat from "../components/InitialChat";
 import LeftChat from "../components/LeftChat";
@@ -155,8 +155,8 @@ const LoadingOverlay = styled(motion.div)`
 
 const fetchData = async (input) => {
   try {
-    const response = await axios.post(
-      `http://1.215.235.253:17000/search-by-text`,
+    const response = await apiClient.post(
+      `/search-by-text`,
       {
         text_kor: input,
       },

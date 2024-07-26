@@ -5,6 +5,7 @@ import profileImage from "../assets/images/thumnails/소녀재판.PNG";
 const Container = styled.div`
   display: flex;
   flex-direction: column;
+  margin-top: 3vh;
 `;
 
 const ChatContainer = styled.div`
@@ -47,7 +48,8 @@ export default function SuccessChat({ className }) {
     <Container className={className}>
       <ProfileImage src={profileImage} alt="profile" />
       <ChatContainer>
-        <ChatText>검색이 완료되었어요 🎉</ChatText>
+        <ChatText>검색이 완료되었어요🎉</ChatText>
+        <ChatText> </ChatText>
         <ChatText>가장 관련도가 높은 회차 5개를 순서대로 보여드릴게요</ChatText>
       </ChatContainer>
     </Container>
