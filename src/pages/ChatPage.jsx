@@ -3,10 +3,13 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { StageSpinner } from "react-spinners-kit";
 import { motion } from "framer-motion";
+import axios from "axios";
 
 import InitialChat from "../components/InitialChat";
 import LeftChat from "../components/LeftChat";
 import RightChat from "../components/RightChat";
+import SuccessChat from "../components/SuccessChat";
+
 import profile from "../assets/images/thumnails/소녀재판.PNG";
 import backButton from "../assets/images/leftArrow.png";
 import header from "../assets/images/header.png";
@@ -150,22 +153,43 @@ const LoadingOverlay = styled(motion.div)`
   background: rgba(0, 0, 0, 0.5);
 `;
 
+const fetchData = async (input) => {
+  try {
+    const response = await axios.post(
+      `http://1.215.235.253:17000/search-by-text`,
+      {
+        text_kor: input,
+      },
+      {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    if (error.response) {
+      console.error("서버가 응답했습니다. 상태 코드:", error.response.status);
+      console.error("응답 데이터:", error.response.data);
+    } else if (error.request) {
+      console.error("응답을 받지 못했습니다:", error.request);
+    } else {
+      console.error("요청 설정 중 오류 발생:", error.message);
+    }
+    console.error("오류 구성:", error.config);
+    throw error;
+  }
+};
+
 export default function ChatPage() {
   const navigate = useNavigate();
-  const [messages, setMessages] = useState([
-    { type: "left", text: "This is a test message from the left side." },
-    { type: "left", text: "This is a test message from the left side." },
-  ]);
+
+  const [messages, setMessages] = useState([]);
   const [inputValue, setInputValue] = useState("");
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const chatEndRef = useRef(null);
   const inputRef = useRef(null);
-
-  useEffect(() => {
-    setTimeout(() => {
-      setLoading(false);
-    }, 3000);
-  }, []);
 
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -195,11 +219,35 @@ export default function ChatPage() {
     navigate(-1);
   };
 
-  const handleSendMessage = () => {
+  const handleSendMessage = async () => {
     if (inputValue.trim() !== "") {
       setMessages([...messages, { type: "right", text: inputValue }]);
       setInputValue("");
-      // fetchApiResponse(inputValue);
+      setLoading(true);
+
+      try {
+        const response = await fetchData(inputValue);
+        const responseMessages = response.search_list.map((item) => ({
+          type: "left",
+          episode: item.episode,
+          num: item.num,
+          similarity: item.similarity,
+          imagePath: item.image_path,
+        }));
+
+        const successMessage = { type: "success" }; // SuccessChat 메시지 추가
+
+        setMessages((prevMessages) => [
+          ...prevMessages,
+          successMessage,
+          ...responseMessages,
+        ]);
+      } catch (error) {
+        console.error("Error sending message:", error);
+        alert("메시지 전송 중 오류가 발생했습니다. 다시 시도해주세요.");
+      } finally {
+        setLoading(false);
+      }
     }
   };
 
@@ -211,6 +259,15 @@ export default function ChatPage() {
       variants={pageVariants}
       transition={pageTransition}
     >
+      {loading && (
+        <LoadingOverlay
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+        >
+          <StageSpinner color="#ffffff" size={50} />
+        </LoadingOverlay>
+      )}
       <HeaderContainer>
         <BackButton src={backButton} onClick={handleBackClick} />
       </HeaderContainer>
@@ -227,9 +284,22 @@ export default function ChatPage() {
                 className="chat-bubble left"
               >
                 <LeftChat
-                  message={message.text}
+                  episode={message.episode}
+                  num={message.num}
+                  similarity={message.similarity}
+                  imagePath={message.imagePath}
                   profileImage={index === 0 ? profile : null}
                 />
+              </motion.div>
+            ) : message.type === "success" ? (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: -15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1 }}
+                className="chat-bubble success"
+              >
+                <SuccessChat />
               </motion.div>
             ) : (
               <RightChat
