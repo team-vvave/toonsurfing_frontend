@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { StageSpinner } from "react-spinners-kit";
 import { motion } from "framer-motion";
-import { apiClient } from "../apiClient"; // 설정한 axios 인스턴스를 가져옵니다.
+import { apiClient } from "../apiClient";
 
 import InitialChat from "../components/InitialChat";
 import LeftChat from "../components/LeftChat";
@@ -139,18 +139,29 @@ const Button = styled.button`
   }
 `;
 
-const LoadingOverlay = styled(motion.div)`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+const LoadingContainer = styled(motion.div)`
   display: flex;
-  flex-direction: column;
-  justify-content: center;
   align-items: center;
-  z-index: 9999;
-  background: rgba(0, 0, 0, 0.5);
+  margin: 1vw 0;
+  flex-direction: row;
+`;
+
+const ProfileImage = styled.img`
+  width: 11vw;
+  height: 11vw;
+  border: solid 0.2vw #d9d9d9;
+  border-radius: 50%;
+  object-fit: cover;
+  margin: 2vh 2vw 0.5vh 1vw;
+`;
+
+const LoadingOverlay = styled(motion.div)`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  z-index: 4;
+  background: white;
+  margin-left: 2vw;
 `;
 
 const fetchData = async (input) => {
@@ -259,15 +270,6 @@ export default function ChatPage() {
       variants={pageVariants}
       transition={pageTransition}
     >
-      {loading && (
-        <LoadingOverlay
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-        >
-          <StageSpinner color="#ffffff" size={50} />
-        </LoadingOverlay>
-      )}
       <HeaderContainer>
         <BackButton src={backButton} onClick={handleBackClick} />
       </HeaderContainer>
@@ -308,6 +310,18 @@ export default function ChatPage() {
                 className="chat-bubble right"
               />
             )
+          )}
+          {loading && (
+            <LoadingContainer
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            >
+              <ProfileImage src={profile} />
+              <LoadingOverlay>
+                <StageSpinner color="#000" size={25} />
+              </LoadingOverlay>
+            </LoadingContainer>
           )}
           <div ref={chatEndRef} />
         </ChatContentContainer>
