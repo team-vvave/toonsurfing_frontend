@@ -34,7 +34,7 @@ const ProfileImage = styled.img`
 
 const ChatText = styled.p`
   font-family: "Pretendard";
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-weight: 400;
   white-space: pre-wrap;
   word-wrap: break-word;

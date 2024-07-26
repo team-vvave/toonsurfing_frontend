@@ -25,12 +25,25 @@ const ImageContainer = styled.div`
   overflow-x: auto;
   width: 100%;
   align-items: center;
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
-  &::-webkit-scrollbar {
-    display: none; /* Chrome, Safari, Opera */
-  }
   cursor: grab;
+
+  &::-webkit-scrollbar {
+    height: 0.65vh;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #d9d9d9;
+    border-radius: 5vw;
+    border: 1px solid #d9d9d9;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background-color: #a9a9a9;
+  }
 `;
 
 const ToonImage = styled.img`

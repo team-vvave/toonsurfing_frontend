@@ -64,7 +64,7 @@ const WhiteContainer = styled.div`
   box-shadow: 0 -1.5vh 1vh rgba(0, 0, 0, 0.2);
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;
   position: relative;
   margin-top: -5vh;
   padding-top: 2vh;
@@ -73,12 +73,14 @@ const WhiteContainer = styled.div`
 
 const ChatContentContainer = styled.div`
   width: 100%;
-  height: auto;
+  height: calc(
+    100vh - 20vh - 10vh
+  ); /* Adjust the height to ensure InputContainer does not overlap */
   flex: 1;
   display: flex;
   flex-direction: column;
   overflow-y: auto;
-  padding: 0 2vw 1vh 2vw;
+  padding: 0 3vw 1vh 3vw;
   box-sizing: border-box;
   z-index: 3;
   position: relative;
@@ -98,16 +100,16 @@ const ChatContentContainer = styled.div`
 
 const InputContainer = styled.div`
   width: 100%;
-  padding: 1vh 0 0 0;
   display: flex;
   justify-content: center;
   background: #fff;
   z-index: 3;
+  box-sizing: border-box;
+  margin-top: 1vh;
 `;
 
 const Input = styled.input`
-  width: 72%;
-  padding: 2vw;
+  width: 75%;
   border-radius: 1.5vw;
   border: 1px solid #ccc;
   outline: none;
@@ -123,7 +125,6 @@ const Input = styled.input`
 const Button = styled.button`
   width: 15%;
   margin-left: 1vw;
-  margin-right: 2vw;
   padding: 2vw;
   border: none;
   border-radius: 1.5vw;
@@ -275,7 +276,7 @@ export default function ChatPage() {
       </HeaderContainer>
       <WhiteContainer>
         <ChatContentContainer>
-          <InitialChat />
+          <InitialChat className="chat-bubble left" />
           {messages.map((message, index) =>
             message.type === "left" ? (
               <motion.div
@@ -301,7 +302,7 @@ export default function ChatPage() {
                 transition={{ duration: 1 }}
                 className="chat-bubble success"
               >
-                <SuccessChat />
+                <SuccessChat className="chat-bubble left" />
               </motion.div>
             ) : (
               <RightChat
