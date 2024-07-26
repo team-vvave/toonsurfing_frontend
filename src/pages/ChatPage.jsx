@@ -3,10 +3,14 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { StageSpinner } from "react-spinners-kit";
 import { motion } from "framer-motion";
+import { apiClient } from "../apiClient";
 
 import InitialChat from "../components/InitialChat";
 import LeftChat from "../components/LeftChat";
 import RightChat from "../components/RightChat";
+import SuccessChat from "../components/SuccessChat";
+import FailureChat from "../components/FailureChat";
+
 import profile from "../assets/images/thumnails/소녀재판.PNG";
 import backButton from "../assets/images/leftArrow.png";
 import header from "../assets/images/header.png";
@@ -61,7 +65,7 @@ const WhiteContainer = styled.div`
   box-shadow: 0 -1.5vh 1vh rgba(0, 0, 0, 0.2);
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;
   position: relative;
   margin-top: -5vh;
   padding-top: 2vh;
@@ -70,12 +74,14 @@ const WhiteContainer = styled.div`
 
 const ChatContentContainer = styled.div`
   width: 100%;
-  height: auto;
+  height: calc(
+    100vh - 20vh - 10vh
+  ); /* Adjust the height to ensure InputContainer does not overlap */
   flex: 1;
   display: flex;
   flex-direction: column;
   overflow-y: auto;
-  padding: 0 2vw 1vh 2vw;
+  padding: 0 3vw 1vh 3vw;
   box-sizing: border-box;
   z-index: 3;
   position: relative;
@@ -95,16 +101,16 @@ const ChatContentContainer = styled.div`
 
 const InputContainer = styled.div`
   width: 100%;
-  padding: 1vh 0 0 0;
   display: flex;
   justify-content: center;
   background: #fff;
   z-index: 3;
+  box-sizing: border-box;
+  margin-top: 1vh;
 `;
 
 const Input = styled.input`
-  width: 72%;
-  padding: 2vw;
+  width: 75%;
   border-radius: 1.5vw;
   border: 1px solid #ccc;
   outline: none;
@@ -115,12 +121,18 @@ const Input = styled.input`
   word-wrap: break-word;
   line-height: 1.3;
   color: #333;
+  padding-left: 0.5rem;
+
+  &::placeholder {
+    color: #999;
+    padding-left: 0.3rem;
+    letter-spacing: -0.02em;
+  }
 `;
 
 const Button = styled.button`
   width: 15%;
   margin-left: 1vw;
-  margin-right: 2vw;
   padding: 2vw;
   border: none;
   border-radius: 1.5vw;
@@ -136,36 +148,71 @@ const Button = styled.button`
   }
 `;
 
-const LoadingOverlay = styled(motion.div)`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+const LoadingContainer = styled(motion.div)`
   display: flex;
-  flex-direction: column;
-  justify-content: center;
   align-items: center;
-  z-index: 9999;
-  background: rgba(0, 0, 0, 0.5);
+  margin: 1vw 0;
+  flex-direction: row;
 `;
+
+const ProfileImage = styled.img`
+  width: 11vw;
+  height: 11vw;
+  border: solid 0.2vw #d9d9d9;
+  border-radius: 50%;
+  object-fit: cover;
+  margin: 2vh 2vw 0.5vh 1vw;
+`;
+
+const LoadingOverlay = styled(motion.div)`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  z-index: 4;
+  background: white;
+  margin-left: 2vw;
+`;
+
+const fetchData = async (input) => {
+  try {
+    const response = await apiClient.post(
+      `/search-by-text`,
+      {
+        text_kor: input,
+      },
+      {
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    if (error.response) {
+      console.error("서버가 응답했습니다. 상태 코드:", error.response.status);
+      console.error("응답 데이터:", error.response.data);
+      if (error.response.status === 422) {
+        throw new Error("Unprocessable Entity");
+      }
+    } else if (error.request) {
+      console.error("응답을 받지 못했습니다:", error.request);
+    } else {
+      console.error("요청 설정 중 오류 발생:", error.message);
+    }
+    console.error("오류 구성:", error.config);
+    throw error;
+  }
+};
 
 export default function ChatPage() {
   const navigate = useNavigate();
-  const [messages, setMessages] = useState([
-    { type: "left", text: "This is a test message from the left side." },
-    { type: "left", text: "This is a test message from the left side." },
-  ]);
+
+  const [messages, setMessages] = useState([]);
   const [inputValue, setInputValue] = useState("");
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const chatEndRef = useRef(null);
   const inputRef = useRef(null);
-
-  useEffect(() => {
-    setTimeout(() => {
-      setLoading(false);
-    }, 3000);
-  }, []);
 
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -195,11 +242,42 @@ export default function ChatPage() {
     navigate(-1);
   };
 
-  const handleSendMessage = () => {
+  const handleSendMessage = async () => {
     if (inputValue.trim() !== "") {
       setMessages([...messages, { type: "right", text: inputValue }]);
       setInputValue("");
-      // fetchApiResponse(inputValue);
+      setLoading(true);
+
+      try {
+        const response = await fetchData(inputValue);
+        const responseMessages = response.search_list.map((item) => ({
+          type: "left",
+          episode: item.episode,
+          num: item.num,
+          similarity: item.similarity,
+          imagePath: item.image_path,
+        }));
+
+        const successMessage = { type: "success" }; // SuccessChat 메시지 추가
+
+        setMessages((prevMessages) => [
+          ...prevMessages,
+          successMessage,
+          ...responseMessages,
+        ]);
+      } catch (error) {
+        console.error("Error sending message:", error);
+        if (error.message === "Unprocessable Entity") {
+          setMessages((prevMessages) => [
+            ...prevMessages,
+            { type: "failure" }, // FailureChat 메시지 추가
+          ]);
+        } else {
+          alert("메시지 전송 중 오류가 발생했습니다. 다시 시도해주세요.");
+        }
+      } finally {
+        setLoading(false);
+      }
     }
   };
 
@@ -216,20 +294,43 @@ export default function ChatPage() {
       </HeaderContainer>
       <WhiteContainer>
         <ChatContentContainer>
-          <InitialChat />
+          <InitialChat className="chat-bubble left" />
           {messages.map((message, index) =>
             message.type === "left" ? (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: -15 }}
-                animate={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
                 transition={{ duration: 1 }}
                 className="chat-bubble left"
               >
                 <LeftChat
-                  message={message.text}
+                  episode={message.episode}
+                  num={message.num}
+                  similarity={message.similarity}
+                  imagePath={message.imagePath}
                   profileImage={index === 0 ? profile : null}
                 />
+              </motion.div>
+            ) : message.type === "success" ? (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 1 }}
+                className="chat-bubble success"
+              >
+                <SuccessChat className="chat-bubble left" />
+              </motion.div>
+            ) : message.type === "failure" ? (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 1 }}
+                className="chat-bubble failure"
+              >
+                <FailureChat className="chat-bubble left" />
               </motion.div>
             ) : (
               <RightChat
@@ -238,6 +339,18 @@ export default function ChatPage() {
                 className="chat-bubble right"
               />
             )
+          )}
+          {loading && (
+            <LoadingContainer
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            >
+              <ProfileImage src={profile} />
+              <LoadingOverlay>
+                <StageSpinner color="#000" size={25} />
+              </LoadingOverlay>
+            </LoadingContainer>
           )}
           <div ref={chatEndRef} />
         </ChatContentContainer>
