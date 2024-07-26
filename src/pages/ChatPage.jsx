@@ -6,7 +6,7 @@ import ChatBackground from "../components/ChatBackground";
 import InitialChat from "../components/InitialChat";
 import LeftChat from "../components/LeftChat";
 import RightChat from "../components/RightChat";
-import profile from "../assets/images/profile.PNG";
+import profile from "../assets/images/thumnails/소녀재판.PNG";
 
 const ChatContentContainer = styled.div`
   width: 100%;
@@ -69,7 +69,7 @@ const Button = styled.button`
 `;
 
 const LoadingOverlay = styled.div`
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
@@ -114,19 +114,20 @@ export default function ChatPage() {
     <ChatBackground>
       <ChatContentContainer>
         <InitialChat />
+        <LeftChat>
+          {loading && (
+            <LoadingOverlay>
+              <WaveSpinner size={10} color="#fff" />
+            </LoadingOverlay>
+          )}
+        </LeftChat>
         {messages.map((message, index) =>
           message.type === "left" ? (
             <LeftChat
               key={index}
               message={message.text}
               profileImage={index === 0 ? profile : null}
-            >
-              {loading && (
-                <LoadingOverlay>
-                  <WaveSpinner size={10} color="#fff" />
-                </LoadingOverlay>
-              )}
-            </LeftChat>
+            />
           ) : (
             <RightChat key={index} message={message.text} />
           )

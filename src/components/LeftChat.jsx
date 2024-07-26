@@ -20,8 +20,8 @@ const ChatContainer = styled.div`
 `;
 
 const ProfileImage = styled.img`
-  width: 13vw;
-  height: 13vw;
+  width: 11vw;
+  height: 11vw;
   border: solid 0.2vw #d9d9d9;
   border-radius: 50%;
   object-fit: cover;
