@@ -121,6 +121,13 @@ const Input = styled.input`
   word-wrap: break-word;
   line-height: 1.3;
   color: #333;
+  padding-left: 0.5rem;
+
+  &::placeholder {
+    color: #999;
+    padding-left: 0.3rem;
+    letter-spacing: -0.02em;
+  }
 `;
 
 const Button = styled.button`
@@ -292,8 +299,8 @@ export default function ChatPage() {
             message.type === "left" ? (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: -15 }}
-                animate={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
                 transition={{ duration: 1 }}
                 className="chat-bubble left"
               >
@@ -308,8 +315,8 @@ export default function ChatPage() {
             ) : message.type === "success" ? (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: -15 }}
-                animate={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
                 transition={{ duration: 1 }}
                 className="chat-bubble success"
               >
@@ -318,8 +325,8 @@ export default function ChatPage() {
             ) : message.type === "failure" ? (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: -15 }}
-                animate={{ opacity: 1, y: 0 }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
                 transition={{ duration: 1 }}
                 className="chat-bubble failure"
               >
