@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { motion } from "framer-motion";
+
 import ColorContainer from "../components/ColorBackground";
 import closeButton from "../assets/images/closeButton.png";
 import thumbnail1 from "../assets/images/thumnails/소녀재판.PNG";
@@ -16,6 +18,16 @@ import thumbnail10 from "../assets/images/thumnails/예명여고.PNG";
 import thumbnail11 from "../assets/images/thumnails/일립예고학생들.PNG";
 import thumbnail12 from "../assets/images/thumnails/자멸기관.PNG";
 import thumbnail13 from "../assets/images/thumnails/처음을줄게.PNG";
+
+const pageVariants = {
+  initial: { opacity: 0 },
+  animate: { opacity: 1 },
+  exit: { opacity: 0 },
+};
+
+const pageTransition = {
+  duration: 0.5,
+};
 
 const HeaderContainer = styled.div`
   display: flex;
@@ -47,8 +59,8 @@ const ListContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  max-height: 60vh; /* 높이 제한 설정 */
-  overflow-y: scroll; /* 수직 스크롤바 추가 */
+  max-height: 60vh;
+  overflow-y: scroll;
   -ms-overflow-style: none; /* IE and Edge */
   scrollbar-width: none; /* Firefox */
 
@@ -61,11 +73,11 @@ const ListItem = styled.div`
   display: flex;
   align-items: center;
   background-color: ${(props) =>
-    props.active ? "white" : "rgba(0, 0, 0, 0.6)"};
-  color: ${(props) => (props.active ? "black" : "lightgray")};
+    props.active ? "white" : "rgba(0, 0, 0, 0.65)"};
+  color: ${(props) => (props.active ? "black" : "black")};
   width: 70vw;
-  padding: 10px;
-  margin: 5px 0;
+  padding: 1.5vw;
+  margin: 0.7vw 0;
   border-radius: 5px;
   cursor: ${(props) => (props.active ? "pointer" : "default")};
   pointer-events: ${(props) => (props.active ? "auto" : "none")};
@@ -78,6 +90,7 @@ const ListItem = styled.div`
 const Thumbnail = styled.img`
   width: 12vw;
   height: 16vw;
+  margin: 0.2vw;
   border-radius: 1.2vw;
   filter: ${(props) => (props.active ? "none" : "brightness(0.6)")};
 `;
@@ -85,7 +98,7 @@ const Thumbnail = styled.img`
 const Title = styled.div`
   font-family: "Pretendard";
   font-size: 1.1rem;
-  font-weight: 300;
+  font-weight: ${(props) => (props.active ? 400 : 200)};
   margin: 3vw;
 `;
 
@@ -122,26 +135,34 @@ function SelectPage() {
 
   return (
     <ColorContainer>
-      <HeaderContainer>
-        <ButtonContainer src={closeButton} onClick={handleBackClick} />
-      </HeaderContainer>
-      <TextContainer>어떤 웹툰이 궁금하세요?</TextContainer>
-      <ListContainer>
-        {items.map((item, index) => (
-          <ListItem
-            key={item.id}
-            active={index === selectedIndex}
-            onClick={() => handleClick(index)}
-          >
-            <Thumbnail
-              src={item.thumbnail}
-              alt={`Thumbnail ${index + 1}`}
+      <motion.div
+        initial="initial"
+        animate="animate"
+        exit="exit"
+        variants={pageVariants}
+        transition={pageTransition}
+      >
+        <HeaderContainer>
+          <ButtonContainer src={closeButton} onClick={handleBackClick} />
+        </HeaderContainer>
+        <TextContainer>어떤 웹툰이 궁금하세요?</TextContainer>
+        <ListContainer>
+          {items.map((item, index) => (
+            <ListItem
+              key={item.id}
               active={index === selectedIndex}
-            />
-            <Title>{item.title}</Title>
-          </ListItem>
-        ))}
-      </ListContainer>
+              onClick={() => handleClick(index)}
+            >
+              <Thumbnail
+                src={item.thumbnail}
+                alt={`Thumbnail ${index + 1}`}
+                active={index === selectedIndex}
+              />
+              <Title active={index === selectedIndex}>{item.title}</Title>
+            </ListItem>
+          ))}
+        </ListContainer>
+      </motion.div>
     </ColorContainer>
   );
 }

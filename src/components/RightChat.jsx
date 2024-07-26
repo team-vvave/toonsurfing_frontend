@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { motion } from "framer-motion";
 
 const ChatContainer = styled.div`
   background-color: #fff;
@@ -8,7 +9,7 @@ const ChatContainer = styled.div`
   display: inline-block;
   padding: 2vw 3vw;
   text-align: left;
-  margin: 1.5vh 1vw 1.5vh 1vw;
+  margin: 0.7vh 1vw 0.7vh 1vw;
   align-self: flex-end;
   max-width: 70%;
 `;

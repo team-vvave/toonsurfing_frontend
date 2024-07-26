@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
+
 import logo from "../assets/images/logo.png";
 import button from "../assets/images/startButton.png";
 import ColorContainer from "../components/ColorBackground";
@@ -23,11 +25,11 @@ const TextContainer = styled.div`
   margin-bottom: 2vh;
 `;
 
-const ButtonContainer = styled.img`
+const ButtonContainer = styled(motion.img)`
   width: 40vw;
   height: auto;
   margin: 8vh;
-  cursor: pointer; // 마우스 커서가 포인터로 변경되도록 스타일 추가
+  cursor: pointer;
 `;
 
 function HomePage() {
@@ -41,7 +43,12 @@ function HomePage() {
     <ColorContainer>
       <LogoContainer src={logo} />
       <TextContainer>어떤 장면이 궁금하세요?</TextContainer>
-      <ButtonContainer src={button} onClick={handleButtonClick} />
+      <ButtonContainer
+        src={button}
+        onClick={handleButtonClick}
+        initial={{ scale: 1 }}
+        whileTap={{ scale: 0.85 }}
+      />
     </ColorContainer>
   );
 }

@@ -1,12 +1,23 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { StageSpinner } from "react-spinners-kit";
+import { motion } from "framer-motion";
 
 import ChatBackground from "../components/ChatBackground";
 import InitialChat from "../components/InitialChat";
 import LeftChat from "../components/LeftChat";
 import RightChat from "../components/RightChat";
 import profile from "../assets/images/thumnails/소녀재판.PNG";
+
+const pageVariants = {
+  initial: { opacity: 0 },
+  animate: { opacity: 1 },
+  exit: { opacity: 0 },
+};
+
+const pageTransition = {
+  duration: 0.5,
+};
 
 const ChatContentContainer = styled.div`
   width: 100%;
@@ -26,13 +37,16 @@ const ChatContentContainer = styled.div`
 `;
 
 const InputContainer = styled.div`
+  width: 100%;
+  position: fixed;
+  bottom: 0;
   display: flex;
   justify-content: center;
   margin-bottom: 2vh;
 `;
 
 const Input = styled.input`
-  width: 75%;
+  width: 72%;
   padding: 2vw;
   border-radius: 1.5vw;
   border: 1px solid #ccc;
@@ -50,6 +64,8 @@ const Input = styled.input`
 const Button = styled.button`
   width: 15%;
   margin-left: 1vw;
+  margin-right: 2vw;
+  padding: 2vw;
   border: none;
   border-radius: 1.5vw;
   background: ${(props) =>
@@ -112,39 +128,53 @@ export default function ChatPage() {
 
   return (
     <ChatBackground>
-      <ChatContentContainer>
-        <InitialChat />
-        <LeftChat>
-          {loading && (
-            <LoadingOverlay>
-              <StageSpinner size={10} color="#000" />
-            </LoadingOverlay>
+      {loading && (
+        <LoadingOverlay
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.5 }}
+        >
+          <StageSpinner size={50} color="#fff" />
+        </LoadingOverlay>
+      )}
+      <motion.div
+        initial="initial"
+        animate="animate"
+        exit="exit"
+        variants={pageVariants}
+        transition={pageTransition}
+      >
+        <ChatContentContainer>
+          <InitialChat />
+          {messages.map((message, index) =>
+            message.type === "left" ? (
+              <LeftChat
+                key={index}
+                message={message.text}
+                profileImage={index === 0 ? profile : null}
+              />
+            ) : (
+              <RightChat key={index} message={message.text} />
+            )
           )}
-        </LeftChat>
-        {messages.map((message, index) =>
-          message.type === "left" ? (
-            <LeftChat
-              key={index}
-              message={message.text}
-              profileImage={index === 0 ? profile : null}
-            />
-          ) : (
-            <RightChat key={index} message={message.text} />
-          )
-        )}
-      </ChatContentContainer>
+        </ChatContentContainer>
 
-      <InputContainer>
-        <Input
-          type="text"
-          value={inputValue}
-          onChange={handleInputChange}
-          placeholder="메시지를 입력하세요"
-        />
-        <Button onClick={handleSendMessage} disabled={inputValue.trim() === ""}>
-          전송
-        </Button>
-      </InputContainer>
+        <InputContainer>
+          <Input
+            type="text"
+            value={inputValue}
+            onChange={handleInputChange}
+            placeholder="메시지를 입력하세요"
+          />
+          <Button
+            onClick={handleSendMessage}
+            disabled={inputValue.trim() === ""}
+          >
+            전송
+          </Button>
+        </InputContainer>
+      </motion.div>
     </ChatBackground>
   );
 }
