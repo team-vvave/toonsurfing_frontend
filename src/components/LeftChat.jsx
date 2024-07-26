@@ -27,6 +27,7 @@ const ProfileImage = styled.img`
   object-fit: cover;
   margin-top: 2vh;
   margin-bottom: 0.5vh;
+  margin-left: 1vw;
 `;
 
 const ChatText = styled.p`
