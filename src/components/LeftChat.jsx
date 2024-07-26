@@ -41,9 +41,9 @@ const ChatText = styled.p`
   margin: 0;
 `;
 
-export default function LeftChat({ message, profileImage }) {
+export default function LeftChat({ message, profileImage, className }) {
   return (
-    <Container>
+    <Container className={className}>
       {profileImage && <ProfileImage src={profileImage} alt="profile" />}
       <ChatContainer>
         <ChatText>{message}</ChatText>

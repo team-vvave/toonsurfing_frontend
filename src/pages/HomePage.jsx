@@ -5,7 +5,16 @@ import { motion } from "framer-motion";
 
 import logo from "../assets/images/logo.png";
 import button from "../assets/images/startButton.png";
-import ColorContainer from "../components/ColorBackground";
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+  background: black;
+`;
 
 const LogoContainer = styled.img`
   width: 70vw;
@@ -40,7 +49,7 @@ function HomePage() {
   };
 
   return (
-    <ColorContainer>
+    <Container>
       <LogoContainer src={logo} />
       <TextContainer>어떤 장면이 궁금하세요?</TextContainer>
       <ButtonContainer
@@ -49,7 +58,7 @@ function HomePage() {
         initial={{ scale: 1 }}
         whileTap={{ scale: 0.85 }}
       />
-    </ColorContainer>
+    </Container>
   );
 }
 

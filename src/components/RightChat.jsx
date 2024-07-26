@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import { motion } from "framer-motion";
 
 const ChatContainer = styled.div`
   background-color: #fff;
@@ -25,9 +24,9 @@ const ChatText = styled.p`
   margin: 0;
 `;
 
-export default function RightChat({ message }) {
+export default function RightChat({ message, className }) {
   return (
-    <ChatContainer>
+    <ChatContainer className={className}>
       <ChatText>{message}</ChatText>
     </ChatContainer>
   );

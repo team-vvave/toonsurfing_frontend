@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 
-import ColorContainer from "../components/ColorBackground";
 import closeButton from "../assets/images/closeButton.png";
 import thumbnail1 from "../assets/images/thumnails/소녀재판.PNG";
 import thumbnail2 from "../assets/images/thumnails/걔의질투.PNG";
@@ -29,19 +28,29 @@ const pageTransition = {
   duration: 0.5,
 };
 
-const HeaderContainer = styled.div`
+const Container = styled.div`
   display: flex;
-  position: relative;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   width: 100%;
-  margin-bottom: 6vh;
+  height: 100vh;
+  background: black;
+`;
+
+const FooterContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-top: 10vh;
 `;
 
 const ButtonContainer = styled.img`
-  width: 4vw;
+  width: 5vw;
   height: auto;
   position: absolute;
   cursor: pointer;
-  right: 10vw;
 `;
 
 const TextContainer = styled.div`
@@ -52,7 +61,7 @@ const TextContainer = styled.div`
   white-space: nowrap;
   line-height: 1.2;
   text-align: center;
-  margin: 5vh;
+  margin: 3vh;
 `;
 
 const ListContainer = styled.div`
@@ -73,7 +82,7 @@ const ListItem = styled.div`
   display: flex;
   align-items: center;
   background-color: ${(props) =>
-    props.active ? "white" : "rgba(0, 0, 0, 0.65)"};
+    props.active ? "white" : "rgba(100, 100, 100, 0.6)"};
   color: ${(props) => (props.active ? "black" : "black")};
   width: 70vw;
   padding: 1.5vw;
@@ -83,7 +92,8 @@ const ListItem = styled.div`
   pointer-events: ${(props) => (props.active ? "auto" : "none")};
 
   &:hover {
-    background-color: ${(props) => (props.active ? "#f0f0f0" : "lightgray")};
+    background-color: ${(props) =>
+      props.active ? "#f0f0f0" : "rgba(100, 100, 100, 0.6)"};
   }
 `;
 
@@ -134,7 +144,7 @@ function SelectPage() {
   };
 
   return (
-    <ColorContainer>
+    <Container>
       <motion.div
         initial="initial"
         animate="animate"
@@ -142,10 +152,8 @@ function SelectPage() {
         variants={pageVariants}
         transition={pageTransition}
       >
-        <HeaderContainer>
-          <ButtonContainer src={closeButton} onClick={handleBackClick} />
-        </HeaderContainer>
         <TextContainer>어떤 웹툰이 궁금하세요?</TextContainer>
+
         <ListContainer>
           {items.map((item, index) => (
             <ListItem
@@ -162,8 +170,12 @@ function SelectPage() {
             </ListItem>
           ))}
         </ListContainer>
+
+        <FooterContainer>
+          <ButtonContainer src={closeButton} onClick={handleBackClick} />
+        </FooterContainer>
       </motion.div>
-    </ColorContainer>
+    </Container>
   );
 }
 
