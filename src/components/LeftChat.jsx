@@ -1,7 +1,8 @@
 import React, { useRef, useState } from "react";
 import styled from "styled-components";
+import { motion } from "framer-motion";
 
-const Container = styled.div`
+const Container = styled(motion.div)`
   display: flex;
   flex-direction: column;
   margin: 1vw;
@@ -173,7 +174,12 @@ export default function LeftChat({ episode, num, imagePath, className }) {
   };
 
   return (
-    <Container className={className}>
+    <Container
+      initial={{ opacity: 0, y: -15 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 2 }}
+      className={className}
+    >
       <ChatContainer>
         <ImageContainer
           ref={imageContainerRef}

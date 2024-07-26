@@ -1,8 +1,10 @@
 import React from "react";
 import styled from "styled-components";
+import { motion } from "framer-motion";
+
 import profileImage from "../assets/images/thumnails/소녀재판.PNG";
 
-const Container = styled.div`
+const Container = styled.div(motion.div)`
   display: flex;
   flex-direction: column;
   margin-top: 3vh;
@@ -45,7 +47,12 @@ const ChatText = styled.p`
 
 export default function SuccessChat({ className }) {
   return (
-    <Container className={className}>
+    <Container
+      initial={{ opacity: 0, y: -15 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 1 }}
+      className={className}
+    >
       <ProfileImage src={profileImage} alt="profile" />
       <ChatContainer>
         <ChatText>검색이 완료되었어요🎉</ChatText>

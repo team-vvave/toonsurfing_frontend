@@ -9,6 +9,7 @@ import InitialChat from "../components/InitialChat";
 import LeftChat from "../components/LeftChat";
 import RightChat from "../components/RightChat";
 import SuccessChat from "../components/SuccessChat";
+import FailureChat from "../components/FailureChat";
 
 import profile from "../assets/images/thumnails/소녀재판.PNG";
 import backButton from "../assets/images/leftArrow.png";
@@ -184,6 +185,9 @@ const fetchData = async (input) => {
     if (error.response) {
       console.error("서버가 응답했습니다. 상태 코드:", error.response.status);
       console.error("응답 데이터:", error.response.data);
+      if (error.response.status === 422) {
+        throw new Error("Unprocessable Entity");
+      }
     } else if (error.request) {
       console.error("응답을 받지 못했습니다:", error.request);
     } else {
@@ -256,7 +260,14 @@ export default function ChatPage() {
         ]);
       } catch (error) {
         console.error("Error sending message:", error);
-        alert("메시지 전송 중 오류가 발생했습니다. 다시 시도해주세요.");
+        if (error.message === "Unprocessable Entity") {
+          setMessages((prevMessages) => [
+            ...prevMessages,
+            { type: "failure" }, // FailureChat 메시지 추가
+          ]);
+        } else {
+          alert("메시지 전송 중 오류가 발생했습니다. 다시 시도해주세요.");
+        }
       } finally {
         setLoading(false);
       }
@@ -303,6 +314,16 @@ export default function ChatPage() {
                 className="chat-bubble success"
               >
                 <SuccessChat className="chat-bubble left" />
+              </motion.div>
+            ) : message.type === "failure" ? (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: -15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1 }}
+                className="chat-bubble failure"
+              >
+                <FailureChat className="chat-bubble left" />
               </motion.div>
             ) : (
               <RightChat
