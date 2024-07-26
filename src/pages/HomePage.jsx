@@ -8,18 +8,19 @@ import ColorContainer from "../components/ColorBackground";
 const LogoContainer = styled.img`
   width: 70vw;
   height: auto;
-  margin-top: 12vh;
+  margin-top: 13vh;
 `;
 
 const TextContainer = styled.div`
   font-family: "Pretendard";
-  font-size: 1.25rem;
-  font-weight: 300;
+  font-size: 1.2rem;
+  font-weight: 400;
   color: white;
   white-space: nowrap;
   line-height: 1.2;
   text-align: center;
   margin-top: 3vh;
+  margin-bottom: 2vh;
 `;
 
 const ButtonContainer = styled.img`

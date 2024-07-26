@@ -43,7 +43,7 @@ const TextContainer = styled.div`
   margin: 5vh;
 `;
 
-const ListContainer = styled.div`\
+const ListContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -79,6 +79,7 @@ const Thumbnail = styled.img`
   width: 12vw;
   height: 16vw;
   border-radius: 1.2vw;
+  filter: ${(props) => (props.active ? "none" : "brightness(0.6)")};
 `;
 
 const Title = styled.div`
@@ -132,7 +133,11 @@ function SelectPage() {
             active={index === selectedIndex}
             onClick={() => handleClick(index)}
           >
-            <Thumbnail src={item.thumbnail} alt={`Thumbnail ${index + 1}`} />
+            <Thumbnail
+              src={item.thumbnail}
+              alt={`Thumbnail ${index + 1}`}
+              active={index === selectedIndex}
+            />
             <Title>{item.title}</Title>
           </ListItem>
         ))}
