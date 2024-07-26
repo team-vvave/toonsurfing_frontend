@@ -63,8 +63,8 @@ export default function InitialChat({ className }) {
     >
       <ProfileImage src={profile} alt="profile" />
       <ChatContainer>
-        <ChatText>안녕하세요! 어떤 장면이 궁금하세요?</ChatText>
-        <ChatText>궁금한 장면의 인물 외모/성별/행동/감정</ChatText>
+        <ChatText>안녕하세요, 어떤 장면이 궁금하세요?</ChatText>
+        <ChatText>궁금한 장면의 인물 외모, 성별, 행동, 감정</ChatText>
         <ChatText>또는 궁금한 대사를 입력해보세요!</ChatText>
         <br />
         <ExampleText>예시)</ExampleText>
