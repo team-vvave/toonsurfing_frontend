@@ -24,29 +24,30 @@ const ComponentContainer = styled(motion.div)`
 `;
 
 const LogoContainer = styled(motion.img)`
-  width: 70vw;
+  width: 72vw;
   height: auto;
-  margin-top: 13vh;
+  margin-top: 10vh;
+  margin-bottom: 4vh;
 `;
 
 const TextContainer = styled(motion.div)`
   font-family: "Pretendard";
-  font-size: 1.2rem;
-  font-weight: 400;
-  color: white;
+  font-size: 1rem;
+  font-weight: 300;
+  color: #d9d9d9;
   white-space: nowrap;
   line-height: 1.2;
   text-align: center;
-  margin-top: 3vh;
-  margin-bottom: 2vh;
+  margin: 0.5vh 0 0.5vh 0;
+  letter-spacing: -0.02em;
 `;
 
 const ButtonWrapper = styled(motion.div)`
-  margin: 8vh;
+  margin: 11vh;
 `;
 
 const ButtonContainer = styled.img`
-  width: 40vw;
+  width: 48vw;
   height: auto;
   cursor: pointer;
 `;
@@ -56,15 +57,15 @@ const containerVariants = {
   visible: {
     opacity: 1,
     transition: {
-      duration: 2, // 천천히 나타나도록 지속 시간을 늘림
-      staggerChildren: 1, // 자식 요소들의 나타나는 간격을 늘림
+      duration: 2,
+      staggerChildren: 1,
     },
   },
 };
 
 const childVariants = {
   hidden: { opacity: 0 },
-  visible: { opacity: 1, transition: { duration: 2 } }, // 천천히 나타나도록 지속 시간을 늘림
+  visible: { opacity: 1, transition: { duration: 2 } },
 };
 
 function HomePage() {
@@ -84,6 +85,9 @@ function HomePage() {
         <LogoContainer src={logo} variants={childVariants} />
         <TextContainer variants={childVariants}>
           어떤 장면이 궁금하세요?
+        </TextContainer>
+        <TextContainer variants={childVariants}>
+          툰 서핑으로 더 쉽고, 더 빠른 웹툰
         </TextContainer>
         <ButtonWrapper variants={childVariants}>
           <ButtonContainer
