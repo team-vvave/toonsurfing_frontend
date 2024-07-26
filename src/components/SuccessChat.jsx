@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 
 import profileImage from "../assets/images/thumnails/소녀재판.PNG";
 
-const Container = styled.div(motion.div)`
+const StyledContainer = styled(motion.div)`
   display: flex;
   flex-direction: column;
   margin-top: 3vh;
@@ -47,7 +47,7 @@ const ChatText = styled.p`
 
 export default function SuccessChat({ className }) {
   return (
-    <Container
+    <StyledContainer
       initial={{ opacity: 0, y: -15 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 1 }}
@@ -59,6 +59,6 @@ export default function SuccessChat({ className }) {
         <ChatText> </ChatText>
         <ChatText>가장 관련도가 높은 회차 5개를 순서대로 보여드릴게요</ChatText>
       </ChatContainer>
-    </Container>
+    </StyledContainer>
   );
 }
