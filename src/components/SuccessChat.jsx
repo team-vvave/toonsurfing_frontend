@@ -36,7 +36,7 @@ const ProfileImage = styled.img`
 
 const ChatText = styled.p`
   font-family: "Pretendard";
-  font-size: 1rem;
+  font-size: 0.9rem;
   font-weight: 400;
   white-space: pre-wrap;
   word-wrap: break-word;
@@ -56,8 +56,7 @@ export default function SuccessChat({ className }) {
       <ProfileImage src={profileImage} alt="profile" />
       <ChatContainer>
         <ChatText>검색이 완료되었어요🎉</ChatText>
-        <ChatText> </ChatText>
-        <ChatText>가장 관련도가 높은 회차 5개를 순서대로 보여드릴게요</ChatText>
+        <ChatText>관련도가 높은 회차를 순서대로 보여드릴게요</ChatText>
       </ChatContainer>
     </StyledContainer>
   );

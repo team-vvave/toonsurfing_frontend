@@ -36,7 +36,7 @@ const ProfileImage = styled.img`
 
 const ChatText = styled.p`
   font-family: "Pretendard";
-  font-size: 1rem;
+  font-size: 0.9rem;
   font-weight: 400;
   white-space: pre-wrap;
   word-wrap: break-word;
@@ -56,6 +56,7 @@ export default function FailureChat({ className }) {
       <ProfileImage src={profileImage} alt="profile" />
       <ChatContainer>
         <ChatText>해당 장면이 있는 회차를 찾지 못했어요😢</ChatText>
+        <ChatText>조금 더 정확하게 입력해주세요</ChatText>
       </ChatContainer>
     </Container>
   );

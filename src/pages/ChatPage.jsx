@@ -115,7 +115,7 @@ const Input = styled.input`
   border: 1px solid #ccc;
   outline: none;
   font-family: "Pretendard";
-  font-size: 1rem;
+  font-size: 0.9rem;
   font-weight: 200;
   white-space: pre-wrap;
   word-wrap: break-word;
@@ -125,6 +125,7 @@ const Input = styled.input`
 
   &::placeholder {
     color: #999;
+    font-size: 0.9rem;
     padding-left: 0.3rem;
     letter-spacing: -0.02em;
   }
@@ -140,7 +141,7 @@ const Button = styled.button`
   color: white;
   cursor: ${(props) => (props.disabled ? "default" : "pointer")};
   font-family: "Pretendard";
-  font-size: 1rem;
+  font-size: 0.9rem;
   font-weight: 500;
 
   &:disabled {
@@ -176,7 +177,7 @@ const LoadingOverlay = styled(motion.div)`
 const fetchData = async (input) => {
   try {
     const response = await apiClient.post(
-      `/search-by-text`,
+      `/search-by-final`,
       {
         text_kor: input,
       },
@@ -258,8 +259,7 @@ export default function ChatPage() {
           imagePath: item.image_path,
         }));
 
-        const successMessage = { type: "success" }; // SuccessChat 메시지 추가
-
+        const successMessage = { type: "success" };
         setMessages((prevMessages) => [
           ...prevMessages,
           successMessage,
@@ -267,14 +267,7 @@ export default function ChatPage() {
         ]);
       } catch (error) {
         console.error("Error sending message:", error);
-        if (error.message === "Unprocessable Entity") {
-          setMessages((prevMessages) => [
-            ...prevMessages,
-            { type: "failure" }, // FailureChat 메시지 추가
-          ]);
-        } else {
-          alert("메시지 전송 중 오류가 발생했습니다. 다시 시도해주세요.");
-        }
+        setMessages((prevMessages) => [...prevMessages, { type: "failure" }]);
       } finally {
         setLoading(false);
       }
@@ -361,7 +354,6 @@ export default function ChatPage() {
             value={inputValue}
             onChange={handleInputChange}
             onFocus={handleInputFocus}
-            onBlur={handleInputBlur}
             onKeyPress={handleKeyPress}
             placeholder="메시지를 입력하세요"
             ref={inputRef}

@@ -27,6 +27,8 @@ const ImageContainer = styled.div`
   width: 100%;
   align-items: center;
   cursor: grab;
+  margin-top: 1.5vh;
+  margin-bottom: 0.5vh;
 
   &::-webkit-scrollbar {
     height: 0.65vh;
@@ -53,9 +55,7 @@ const ToonImage = styled.img`
   background: white;
   border: solid 0.2vw #d9d9d9;
   object-fit: contain;
-  margin-top: 2vh;
-  margin-bottom: 0.5vh;
-  margin-left: 1vw;
+  margin-right: 1.5vw;
 `;
 
 const TextContainer = styled.div`
@@ -64,12 +64,12 @@ const TextContainer = styled.div`
   align-items: center;
   width: 100%;
   padding: 1vw 0;
-  margin: 1vh 1.5vw 0.5vh 1.5vw;
+  margin: 1vh 1.5vw 1vh 1.5vw;
 `;
 
 const ChatText = styled.p`
   font-family: "Pretendard";
-  font-size: 1rem;
+  font-size: 0.9rem;
   font-weight: 500;
   white-space: pre-wrap;
   word-wrap: break-word;
@@ -80,7 +80,7 @@ const ChatText = styled.p`
 
 const ChatLink = styled.button`
   font-family: "Pretendard";
-  font-size: 1rem;
+  font-size: 0.8rem;
   font-weight: 300;
   white-space: pre-wrap;
   word-wrap: break-word;

@@ -55,8 +55,8 @@ const ButtonContainer = styled.img`
 
 const TextContainer = styled.div`
   font-family: "Pretendard";
-  font-size: 1.25rem;
-  font-weight: 500;
+  font-size: 1.1rem;
+  font-weight: 400;
   color: white;
   white-space: nowrap;
   line-height: 1.2;
@@ -105,7 +105,7 @@ const Thumbnail = styled.img`
 
 const Title = styled.div`
   font-family: "Pretendard";
-  font-size: 1rem;
+  font-size: 0.9rem;
   font-weight: ${(props) => (props.active ? 500 : 200)};
   letter-spacing: -0.02em;
   padding-left: 2vw;
@@ -128,7 +128,7 @@ const HashTag = styled.div`
   letter-spacing: -0.02em;
   background-color: ${(props) => (props.active ? "#f5f5f5" : "transparent")};
   border-radius: 1.2vw;
-  color: ${(props) => (props.active ? "#333" : "d9d9d9")};
+  color: ${(props) => (props.active ? "#333" : "black")};
 `;
 
 const items = [
