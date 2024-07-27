@@ -33,7 +33,7 @@ const ChatContainer = styled.div`
 
 const ChatText = styled.p`
   font-family: "Pretendard";
-  font-size: 1rem;
+  font-size: 0.9rem;
   font-weight: 400;
   white-space: pre-wrap;
   word-wrap: break-word;
@@ -44,7 +44,7 @@ const ChatText = styled.p`
 
 const ExampleText = styled.p`
   font-family: "Pretendard";
-  font-size: 1rem;
+  font-size: 0.8rem;
   font-weight: 300;
   white-space: pre-wrap;
   word-wrap: break-word;
@@ -64,12 +64,16 @@ export default function InitialChat({ className }) {
       <ProfileImage src={profile} alt="profile" />
       <ChatContainer>
         <ChatText>안녕하세요, 어떤 장면이 궁금하세요?</ChatText>
-        <ChatText>궁금한 장면의 인물 외모, 성별, 행동, 감정</ChatText>
-        <ChatText>또는 궁금한 대사를 입력해보세요!</ChatText>
+        <ChatText> </ChatText>
+        <ChatText>어렴풋이 기억나는 장면에 등장했던 인물</ChatText>
+        <ChatText>또는 상황이나 등장인물의 대사를 입력해보세요!</ChatText>
         <br />
         <ExampleText>예시)</ExampleText>
         <ExampleText>
-          금발머리 여자가 다른 남자와 싸우다가 우는 장면
+          차태석이랑 박가을이랑 오토바이 타는 장면 몇 화인지 알려주세요
+        </ExampleText>
+        <ExampleText>
+          안경 낀 사람 때리면 살인 몇 화에 나온 대사야??
         </ExampleText>
       </ChatContainer>
     </Container>

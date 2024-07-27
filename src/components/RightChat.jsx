@@ -15,7 +15,7 @@ const ChatContainer = styled.div`
 
 const ChatText = styled.p`
   font-family: "Pretendard";
-  font-size: 1rem;
+  font-size: 0.9rem;
   font-weight: 300;
   white-space: pre-wrap;
   word-wrap: break-word;
